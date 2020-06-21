@@ -22,7 +22,9 @@ import com.b2w.api.challenge.services.PlanetService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=ChallengeB2wStarWarsApplication.class)
+
 public class PlanetTestUnitario {
+	
 	@Autowired
 	private PlanetService service;
 	@Autowired
@@ -59,7 +61,7 @@ public class PlanetTestUnitario {
 		assertEquals(planet.getTerrain(), "desert");
 		 
 	 }
-	 
+	
 	 @Test
 		public void createShouldPersistData()
 	    {
@@ -68,15 +70,16 @@ public class PlanetTestUnitario {
 		    dto.setName("Tatooine");
 			dto.setClimate("arid");
 			dto.setTerrain("desert");
-			
+
 			
 			this.service.save(dto);
 			Assertions.assertThat(dto.getName()).isEqualTo("Tatooine");
 			Assertions.assertThat(dto.getClimate()).isEqualTo("arid");
 			Assertions.assertThat(dto.getTerrain()).isEqualTo("desert");
-			
+			Assertions.assertThat(this.service.save(dto).getBody().getNumberOfAppearances()).isEqualTo(5);
 			
 		}
+	
 	 @Test
 		public void deleteShouldRemoveData() {
 		 Planet planet = new  Planet();
@@ -89,9 +92,6 @@ public class PlanetTestUnitario {
 			
 			Assertions.assertThat(this.repository.findById(planet.getId())).isEmpty();
 		}
-	 
-	 
-	
 	 
 	 @Test
 	   	public void getShouldGetAllData() {
@@ -112,5 +112,5 @@ public class PlanetTestUnitario {
 	   	   Assertions.assertThat(planets.size()).isEqualTo(2);
 	   		
 	   	}
-	   	
+	
 }

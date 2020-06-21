@@ -9,13 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import com.b2w.api.challenge.dto.PlanetDtoRequest;
 import com.b2w.api.challenge.models.Planet;
+import com.b2w.api.challenge.models.Results;
+import com.b2w.api.challenge.models.Retorna;
 import com.b2w.api.challenge.repositories.PlanetRepository;
 import com.b2w.api.challenge.services.PlanetService;
-import com.b2w.api.challenge.utils.Api;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 
 @Service
@@ -23,8 +23,9 @@ public class PlanetServiceImple implements PlanetService {
 	
 	@Autowired
 	PlanetRepository repository;
-	
-	Api api;
+
+    @Autowired
+   RestTemplate restTemplate;
 
 	@Override
 	public ResponseEntity<Planet> save(PlanetDtoRequest planeta) {
@@ -74,24 +75,12 @@ Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName
 	
 private int getNumberOfAppearances(String name)  {
 		
-		JsonObject object;
-		try {
+	String url ="https://swapi.dev/api/planets/?search="+name;
+	
+	Retorna re =restTemplate.getForObject(url, Retorna.class);
+	Results[] result=re.getResults();
+	return result[0].getFilms().length;
 			
-			object = api.getBuilder( name);
-			JsonArray films = object.getAsJsonArray("films");
-			
-			return films.size();
-			
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
-			return 0;
-		}
-		
-		
-		
-		
 		
 	}
 }
