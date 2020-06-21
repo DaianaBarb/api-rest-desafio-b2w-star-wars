@@ -1,6 +1,6 @@
 package com.b2w.api.challenge.configuration;
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,8 +15,5 @@ public class PersistenceConfig {
 		return new RestTemplate();
 	}
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+    
 }

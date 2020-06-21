@@ -12,11 +12,11 @@ public class PlanetDtoRequest {
 	
 	private String climate;
 	
-	private String ground;
+	private String terrain;
 	
 	
 	public Planet turnsToPlanet(Integer numberOfAppearances) {
-		return new Planet(this.name,this.climate,this.ground,numberOfAppearances);
+		return new Planet(this.name,this.climate,this.terrain,numberOfAppearances);
 		
 	}
 }

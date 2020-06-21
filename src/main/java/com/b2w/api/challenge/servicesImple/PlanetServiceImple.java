@@ -30,9 +30,10 @@ public class PlanetServiceImple implements PlanetService {
 	public ResponseEntity<Planet> save(PlanetDtoRequest planeta) {
 		
 		
-		Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName()));
+Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName()));
 		
 		return new ResponseEntity<Planet> ( repository.save(planet),HttpStatus.CREATED);
+
 	}
 
 	@Override
@@ -71,12 +72,12 @@ public class PlanetServiceImple implements PlanetService {
 	}
 
 	
-	private int getNumberOfAppearances(String name)  {
+private int getNumberOfAppearances(String name)  {
 		
 		JsonObject object;
 		try {
 			
-			object = api.getBuilder("planets", name);
+			object = api.getBuilder( name);
 			JsonArray films = object.getAsJsonArray("films");
 			
 			return films.size();

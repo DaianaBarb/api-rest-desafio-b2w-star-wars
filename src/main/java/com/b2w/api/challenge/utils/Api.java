@@ -14,21 +14,22 @@ public class Api {
 		
 	}
 
-    public JsonObject getBuilder(String path, String searchquery) throws Exception {
+    public JsonObject getBuilder( String searchquery) throws Exception {
+    	System.out.println("entrou");
         HttpGet httpGet;
-        if (searchquery == null) {
-            httpGet = new HttpGet("https://swapi.dev/api/" + path + "/");
-        } else {
-            httpGet = new HttpGet("https://swapi.dev/api/planets/" + path + "/?search=" + searchquery);
-        }
+       
+            httpGet = new HttpGet("https://swapi.dev/api/planets/?search=" + searchquery);
+       
         return getRequest(httpGet);
     }
 
     public JsonObject getRequest(HttpGet getRequest) throws IOException {
+    	System.out.println("entrou2");
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         getRequest.addHeader("accept", "application/json");
         HttpResponse response = httpClient.execute(getRequest);
+        System.out.println("response"+response);
 
         if (response.getStatusLine().getStatusCode() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "

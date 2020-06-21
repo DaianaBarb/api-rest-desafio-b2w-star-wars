@@ -26,12 +26,14 @@ import lombok.Setter;
 @Table(name = "TB_PLANETA")
 public class Planet implements Serializable {
 	
-	
-	
+	public Planet() {
+		
+	}
+
 	public Planet(String name, String climate, String ground,Integer numberOfAppearances) {
 		this.name=name;
 		this.climate=climate;
-		this.ground=ground;
+		this.terrain=ground;
 		this.numberOfAppearances=numberOfAppearances;
 	}
 
@@ -48,7 +50,7 @@ public class Planet implements Serializable {
 	private String climate;
     
     @NotNull
-	private String ground;
+	private String terrain;
     
     @NotNull
 	private Integer numberOfAppearances;

@@ -22,7 +22,7 @@ public class SwaggerConfig {
 		
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.b2w.api.desafio.controls"))
+                .apis(RequestHandlerSelectors.basePackage("com.b2w.api.challenge.controls"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaInfo());
