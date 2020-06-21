@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.b2w.api.challenge.dto.PlanetDtoRequest;
 import com.b2w.api.challenge.models.Planet;
-import com.b2w.api.challenge.models.Results;
-import com.b2w.api.challenge.models.Retorna;
 import com.b2w.api.challenge.repositories.PlanetRepository;
 import com.b2w.api.challenge.services.PlanetService;
+import com.b2w.api.challenge.utils.Results;
+import com.b2w.api.challenge.utils.ReturnApiData;
 
 
 @Service
@@ -79,7 +79,7 @@ private int getNumberOfAppearances(String name)  {
 		
 	String url ="https://swapi.dev/api/planets/?search="+name;
 	
-	Retorna re =restTemplate.getForObject(url, Retorna.class);
+	ReturnApiData re =restTemplate.getForObject(url, ReturnApiData.class);
 	Results[] result=re.getResults();
 	return result[0].getFilms().length;
 			
