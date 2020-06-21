@@ -25,13 +25,13 @@ public class PlanetServiceImple implements PlanetService {
 	PlanetRepository repository;
 
     @Autowired
-   RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
 	@Override
 	public ResponseEntity<Planet> save(PlanetDtoRequest planeta) {
 		
 		
-Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName()));
+    Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName()));
 		
 		return new ResponseEntity<Planet> ( repository.save(planet),HttpStatus.CREATED);
 
@@ -49,6 +49,7 @@ Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName
 
 	@Override
 	public Page<Planet> findAll(int page, int size) {
+		
 		Pageable paging = PageRequest.of(page, size);
 		return repository.findAll(paging);
 	}
@@ -65,9 +66,10 @@ Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName
 
 	@Override
 	public ResponseEntity<Planet> findByName(String name) {
+		
      Optional<Planet> planet =Optional.ofNullable(repository.findByNameIgnoreCase(name));
 		
-		if(planet.isPresent()) {return new  ResponseEntity<Planet>(planet.get(),HttpStatus.ACCEPTED);}
+  	if(planet.isPresent()) {return new  ResponseEntity<Planet>(planet.get(),HttpStatus.ACCEPTED);}
 		
 		return new ResponseEntity<Planet>(HttpStatus.NOT_FOUND) ;
 	}

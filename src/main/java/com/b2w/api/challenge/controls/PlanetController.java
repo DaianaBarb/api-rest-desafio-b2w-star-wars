@@ -30,10 +30,7 @@ public class PlanetController {
 	
 	    @Autowired
 	    PlanetService service;
-	 
-		
-		
-	 
+
 	    @PostMapping()
 	    @ApiOperation(value = "Creates a new planet")
 	    @ApiResponse(code = 201, message = 	"New planet successfully created.", response = String.class)
@@ -48,7 +45,7 @@ public class PlanetController {
 	     @ApiResponse(code = 204, message = 	"Does not contain planet", response = String.class)		})
 		 @ApiOperation(value = "return planet by id")
 	     
-	     public ResponseEntity<Planet> findById(@PathVariable("id") Long id){
+	     public ResponseEntity<Planet> findById(@Valid @PathVariable("id") Long id){
 	    	 return service.findById(id);
 	    	 
 	     }
@@ -59,7 +56,7 @@ public class PlanetController {
 	     @ApiOperation(value="Deletes a planet")
 	     @DeleteMapping("/{id}")
 	     
-	     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id){
+	     public ResponseEntity<Void> deleteById(@Valid @PathVariable("id") Long id){
 	    	 
 	    	return service.delete(id); 
 	     }
@@ -70,7 +67,7 @@ public class PlanetController {
 	     @GetMapping("/name")
 	     @ApiOperation(value = "Returns an ordered list of planets")
 	     
-	     public ResponseEntity<Planet> findByName(@RequestParam(required= true) String name){
+	     public ResponseEntity<Planet> findByName(@Valid @RequestParam(required= true) String name){
 	    	 
 	    	 return service.findByName(name);
 	     }

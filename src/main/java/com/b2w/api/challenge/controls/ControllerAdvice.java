@@ -18,7 +18,7 @@ public class ControllerAdvice {
 public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 	return e.getBindingResult().getFieldError().getField()+"-"+ e.getBindingResult().getFieldError().getDefaultMessage();
 }
-// erro interno  do servidor divisao por zero e um exemplo
+
 @ExceptionHandler(Exception.class)
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 @ResponseBody

@@ -1,7 +1,6 @@
 package com.b2w.api.challenge.models;
 
 import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Retorna {
