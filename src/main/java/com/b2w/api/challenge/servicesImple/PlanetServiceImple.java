@@ -18,6 +18,7 @@ import com.b2w.api.challenge.utils.Results;
 import com.b2w.api.challenge.utils.ReturnApiData;
 
 
+
 @Service
 public class PlanetServiceImple implements PlanetService {
 	
@@ -79,8 +80,8 @@ private int getNumberOfAppearances(String name)  {
 		
 	String url ="https://swapi.dev/api/planets/?search="+name;
 	
-	ReturnApiData re =restTemplate.getForObject(url, ReturnApiData.class);
-	Results[] result=re.getResults();
+	ReturnApiData returnn=restTemplate.getForObject(url, ReturnApiData.class);
+	Results[] result=returnn.getResults();
 	return result[0].getFilms().length;
 			
 		
