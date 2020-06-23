@@ -1,4 +1,4 @@
-package com.b2w.api.challenge.Test.uni;
+package com.b2w.api.challenge.uni;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
