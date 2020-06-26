@@ -62,7 +62,7 @@ public class PlanetController {
 	     }
 	     
 	     @ApiResponses(value = {
-	     @ApiResponse(code = 200, message = 	"returner planets successfully", response = String.class),
+	     @ApiResponse(code = 200, message = 	"returner planets by name successfully", response = String.class),
 	     @ApiResponse(code = 204, message = 	"Does not contain planets", response = String.class)		})
 	     @GetMapping("/name")
 	     @ApiOperation(value = "Returns an ordered list of planets")
@@ -73,7 +73,7 @@ public class PlanetController {
 	     }
 	     
 	     @ApiResponses(value = {
-	     @ApiResponse(code = 200, message = 	"returner planets successfully", response = String.class),
+	     @ApiResponse(code = 200, message = 	"returner planets  successfully", response = String.class),
 	     @ApiResponse(code = 204, message = 	"Does not contain planets", response = String.class)		})
 	     @GetMapping()
 	     @ApiOperation(value = "Returns an ordered list of planets")
