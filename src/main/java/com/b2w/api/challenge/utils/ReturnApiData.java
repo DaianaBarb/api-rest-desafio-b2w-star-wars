@@ -4,14 +4,12 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class ReturnApiData {
-	public Results[] getResults() {
-		return results;
-	}
-
-	public void setResults(Results[] results) {
-		this.results = results;
-	}
+	
 
 	@JsonProperty("results")
 	public Results[] results;
