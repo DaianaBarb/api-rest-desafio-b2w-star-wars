@@ -29,12 +29,16 @@ public class PlanetServiceImple implements PlanetService {
     RestTemplate restTemplate;
 
 	@Override
-	public ResponseEntity<Planet> save(PlanetDtoRequest planeta) {
+	public ResponseEntity<Planet> save(PlanetDtoRequest planet) {
+		Planet planet1 = repository.findByNameIgnoreCase(planet.getName());
 		
+		if(planet1 != null) {
+			return new ResponseEntity<Planet> ( planet1, HttpStatus.BAD_REQUEST);
+		}
 		
-    Planet planet= planeta.turnsToPlanet(this.getNumberOfAppearances(planeta.getName()));
+     planet1= planet.turnsToPlanet(this.getNumberOfAppearances(planet.getName()));
 		
-		return new ResponseEntity<Planet> ( repository.save(planet),HttpStatus.CREATED);
+		return new ResponseEntity<Planet> ( repository.save(planet1),HttpStatus.CREATED);
 
 	}
 
@@ -79,10 +83,14 @@ public class PlanetServiceImple implements PlanetService {
 private int getNumberOfAppearances(String name)  {
 		
 	String url ="https://swapi.dev/api/planets/?search="+name;
+	try {
+		ReturnApiData returnn=restTemplate.getForObject(url, ReturnApiData.class);
+		Results[] result=returnn.getResults();
+		return result[0].getFilms().length;
+	} catch (Exception e) {
+		return 0;
+	}
 	
-	ReturnApiData returnn=restTemplate.getForObject(url, ReturnApiData.class);
-	Results[] result=returnn.getResults();
-	return result[0].getFilms().length;
 			
 		
 	}

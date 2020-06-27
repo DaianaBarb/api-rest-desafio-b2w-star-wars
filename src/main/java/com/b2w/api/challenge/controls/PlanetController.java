@@ -33,8 +33,9 @@ public class PlanetController {
 
 	    @PostMapping()
 	    @ApiOperation(value = "Creates a new planet")
-	    @ApiResponse(code = 201, message = 	"New planet successfully created.", response = String.class)
-	    
+	    @ApiResponses(value = {
+	    @ApiResponse(code = 201, message = 	"New planet successfully created.", response = String.class),
+	    @ApiResponse(code = 400, message = 	"planet already has registered", response = String.class)		})
 	    public ResponseEntity<Planet> savePlanet(@Valid @RequestBody PlanetDtoRequest planet){
 		 return service.save(planet);
 	 }
