@@ -67,7 +67,7 @@ public class PlanetController {
 	     @ApiResponse(code = 200, message = 	"returner planets by name successfully", response = String.class),
 	     @ApiResponse(code = 204, message = 	"Does not contain planets", response = String.class)		})
 	     @GetMapping("/name")
-	     @ApiOperation(value = "Returns an ordered list of planets")
+	     @ApiOperation(value = "Returns  planet by name")
 	     
 	     public ResponseEntity<Planet> findByName(@Valid @RequestParam(required= true) String name){
 	    	 
