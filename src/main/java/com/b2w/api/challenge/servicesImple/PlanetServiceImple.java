@@ -51,7 +51,7 @@ public class PlanetServiceImple implements PlanetService {
 	}
 
 	@Override
-	public ResponseEntity<Planet> findById(Long id) {
+	public ResponseEntity<Planet> findById(String id) {
 		
 		Optional<Planet> planet =repository.findById(id);
 		
@@ -69,7 +69,7 @@ public class PlanetServiceImple implements PlanetService {
 	}
 
 	@Override
-	public ResponseEntity<Void> delete(Long id) {
+	public ResponseEntity<Void> delete(String id) {
 		
 		Optional<Planet> planet =repository.findById(id);
 		

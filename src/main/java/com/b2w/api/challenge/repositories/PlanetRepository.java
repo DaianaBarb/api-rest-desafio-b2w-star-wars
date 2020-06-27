@@ -1,14 +1,10 @@
 package com.b2w.api.challenge.repositories;
 
-import javax.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import com.b2w.api.challenge.models.Planet;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-@Transactional
-public interface PlanetRepository extends JpaRepository<Planet, Long> {
+public interface PlanetRepository extends MongoRepository<Planet, String> {
 	
-	public Planet findByNameIgnoreCase(String name);
+	Planet findByNameIgnoreCase(String name);
 
 }

@@ -47,7 +47,7 @@ public class PlanetController {
 	     @ApiResponse(code = 204, message = 	"Does not contain planet", response = String.class)		})
 		 @ApiOperation(value = "return planet by id")
 	     
-	     public ResponseEntity<Planet> findById(@Valid @PathVariable("id") Long id){
+	     public ResponseEntity<Planet> findById(@Valid @PathVariable("id") String id){
 	    	 return service.findById(id);
 	    	 
 	     }
@@ -58,7 +58,7 @@ public class PlanetController {
 	     @ApiOperation(value="Deletes a planet")
 	     @DeleteMapping("/{id}")
 	     
-	     public ResponseEntity<Void> deleteById(@Valid @PathVariable("id") Long id){
+	     public ResponseEntity<Void> deleteById(@Valid @PathVariable("id") String id){
 	    	 
 	    	return service.delete(id); 
 	     }

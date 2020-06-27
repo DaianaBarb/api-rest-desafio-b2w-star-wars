@@ -1,25 +1,19 @@
 package com.b2w.api.challenge.models;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "TB_PLANETA")
-
-public class Planet implements Serializable {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(value = "planet")
+public class Planet {
 	
-	public Planet() {
-		
-	}
 
 	public Planet(String name, String climate, String ground,Integer numberOfAppearances) {
 		
@@ -29,11 +23,8 @@ public class Planet implements Serializable {
 		this.numberOfAppearances=numberOfAppearances;
 	}
 
-	private static final long serialVersionUID = 1L;
-
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+ 	private String id;
 	
     @NotNull
 	private String name;
@@ -47,8 +38,7 @@ public class Planet implements Serializable {
     @NotNull
 	private Integer numberOfAppearances;
     
-    
-    
+
     
     
     
