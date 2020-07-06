@@ -38,7 +38,7 @@ public class PlanetTest {
 	    
 	    	String eventJosn = "{\r\n" + 
 	    			"  \"climate\": \"temperado\",\r\n" + 
-	    			"  \"name\": \"Tatooine\",\r\n" + 
+	    			"  \"name\": \"Alderaan\",\r\n" + 
 	    			"  \"terrain\": \"montanhas\"\r\n" + 
 	    			"}";
 	    	
@@ -54,7 +54,7 @@ public class PlanetTest {
 	     @Test
 		    public void shouldReturn202FindByName() throws Exception {
 		    	
-		       mvc.perform(MockMvcRequestBuilders.get("/v1/api/star-wars/name?name=Tatooine")).andExpect(status().isAccepted());
+		       mvc.perform(MockMvcRequestBuilders.get("/v1/api/star-wars/name?name=Alderaan")).andExpect(status().isAccepted());
 		     
 		    }
 		    

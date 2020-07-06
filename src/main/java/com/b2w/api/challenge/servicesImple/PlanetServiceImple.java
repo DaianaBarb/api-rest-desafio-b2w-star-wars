@@ -33,10 +33,10 @@ public class PlanetServiceImple implements PlanetService {
 	@Override
 	public ResponseEntity<Planet> save(PlanetDtoRequest planet) {
 		
-		Planet planet1 = repository.findByNameIgnoreCase(planet.getName());
+		Planet findPlanet = repository.findByNameIgnoreCase(planet.getName());
 		
-		if(planet1 != null) {
-			return new ResponseEntity<Planet> ( planet1, HttpStatus.BAD_REQUEST);
+		if(findPlanet != null) {
+			return new ResponseEntity<Planet> ( HttpStatus.BAD_REQUEST);
 		}
 		
 		if(this.getNumberOfAppearances(planet.getName())==0) {
@@ -44,9 +44,9 @@ public class PlanetServiceImple implements PlanetService {
 			return new ResponseEntity<Planet> (HttpStatus.NOT_ACCEPTABLE);
 		}
 		
-        planet1= planet.turnsToPlanet(this.getNumberOfAppearances(planet.getName()));
+        findPlanet= planet.turnsToPlanet(this.getNumberOfAppearances(planet.getName()));
 		
-		return new ResponseEntity<Planet> ( repository.save(planet1),HttpStatus.CREATED);
+		return new ResponseEntity<Planet> ( repository.save(findPlanet),HttpStatus.CREATED);
 
 	}
 
@@ -89,27 +89,25 @@ public class PlanetServiceImple implements PlanetService {
 	}
 
 	
-private int getNumberOfAppearances(String name)  {
+    private int getNumberOfAppearances(String name)  {
 		
-	String url ="https://swapi.dev/api/planets/?search="+name;
+	String urlSearchOfName ="https://swapi.dev/api/planets/?search="+name;
 
-	String url2= "https://swapi.dev/api/planets/";
+	String urlSearchPlanets= "https://swapi.dev/api/planets/";
+	
+	ReturnApiData listNamesOfPlanets =  restTemplate.getForObject(urlSearchPlanets, ReturnApiData.class);
 	
 	
-
-		ReturnApiData listNamesOfPlanets =  restTemplate.getForObject(url2, ReturnApiData.class);
 		
-		for(Results resultNames:listNamesOfPlanets.getResults()) {
+	for(Results resultNames:listNamesOfPlanets.getResults()) {
 			
 			if(name.toUpperCase().equals(resultNames.getName().toUpperCase()))
 			{
 
-				ReturnApiData returnn=restTemplate.getForObject(url, ReturnApiData.class);
-				Results[] resultFilms=returnn.getResults();
-				return resultFilms[0].getFilms().length;	
-			}
-			
-}
+				ReturnApiData returnn=restTemplate.getForObject(urlSearchOfName, ReturnApiData.class);
+				Results[] result=returnn.getResults();
+				return result[0].getFilms().length;	
+			}}
 		
 	return 0;
 	

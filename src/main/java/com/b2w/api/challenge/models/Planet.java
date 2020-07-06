@@ -1,19 +1,32 @@
 package com.b2w.api.challenge.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.io.Serializable;
+//import javax.persistence.Entity;
+//import javax.persistence.GeneratedValue;
+//import javax.persistence.GenerationType;
+//import javax.persistence.Id;
+//import javax.persistence.Table;
+//import javax.validation.constraints.NotNull;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Document(value = "planet")
-public class Planet {
+@Getter
+@Setter
+//@Entity
+//@Table(name = "TB_PLANETA")
+@Document(collection = "planet")
+public class Planet implements Serializable {
 	
+	public Planet() {
+		
+	}
 
 	public Planet(String name, String climate, String ground,Integer numberOfAppearances) {
 		
@@ -23,22 +36,30 @@ public class Planet {
 		this.numberOfAppearances=numberOfAppearances;
 	}
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
- 	private String id;
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String id;
 	
-    @NotNull
+    @NotNull(message = "the name attribute cannot be null")
+    @NotBlank(message = "the name attribute cannot be blank")
 	private String name;
 
-    @NotNull
+    @NotNull(message = "the climate attribute cannot be null")
+    @NotBlank(message = "the climate attribute cannot be blank")
 	private String climate;
     
-    @NotNull
+    @NotNull(message = "the terrain attribute cannot be null")
+    @NotBlank(message = "the terrain attribute cannot be blank")
 	private String terrain;
     
-    @NotNull
+    @NotNull(message = "the numberOfAppearances attribute cannot be null")
+    @NotBlank(message = "the numberOfAppearances attribute cannot be blank")
 	private Integer numberOfAppearances;
     
-
+    
+    
     
     
     

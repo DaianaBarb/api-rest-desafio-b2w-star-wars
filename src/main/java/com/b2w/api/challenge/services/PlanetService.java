@@ -9,11 +9,11 @@ import com.b2w.api.challenge.models.Planet;
 
 public interface PlanetService {
 	
-	 ResponseEntity<Planet> save(PlanetDtoRequest planeta);
-	 ResponseEntity<Planet> findById(String id);
-	 Page<Planet> findAll(int page, int size);
-	 ResponseEntity<Void> delete(String id);
-	 ResponseEntity< Planet> findByName(String name);
+	public ResponseEntity<Planet> save(PlanetDtoRequest planeta);
+	public ResponseEntity<Planet> findById(String id);
+	public Page<Planet> findAll(int page, int size);
+	public ResponseEntity<Void> delete(String id);
+	public ResponseEntity< Planet> findByName(String name);
 	
 
 }

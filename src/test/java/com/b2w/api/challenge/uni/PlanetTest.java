@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.b2w.api.challenge.ChallengeB2wStarWarsApplication;
@@ -27,6 +28,7 @@ public class PlanetTest {
 	
 	@Autowired
 	private PlanetService service;
+	
 	@Autowired
 	private PlanetRepository repository;
 	
@@ -72,11 +74,11 @@ public class PlanetTest {
 			dto.setTerrain("desert");
 
 			
-			this.service.save(dto);
+			Assertions.assertThat(this.service.save(dto).getBody().getNumberOfAppearances()).isEqualTo(5);
 			Assertions.assertThat(dto.getName()).isEqualTo("Tatooine");
 			Assertions.assertThat(dto.getClimate()).isEqualTo("arid");
 			Assertions.assertThat(dto.getTerrain()).isEqualTo("desert");
-			Assertions.assertThat(this.service.save(dto).getBody().getNumberOfAppearances()).isEqualTo(5);
+
 			
 		}
 	
@@ -101,16 +103,59 @@ public class PlanetTest {
 			dto.setClimate("arid");
 			dto.setTerrain("desert");
 			
-			 PlanetDtoRequest dto2= new  PlanetDtoRequest();
-			    dto2.setName("Tatooine");
-				dto2.setClimate("arid");
-				dto2.setTerrain("desert");
+			
 	       	this.service.save(dto);
-	   		this.service.save(dto2);
 	   	   List<Planet> planets = repository.findAll();
 	   	   
 	   	   Assertions.assertThat(planets.size()).isEqualTo(2);
 	   		
 	   	}
+	 @Test
+	   	public void saveTwoIdenticalPlanetsGetShould400() {
+	    	
+		 PlanetDtoRequest dto= new  PlanetDtoRequest();
+		    dto.setName("Tatooine");
+			dto.setClimate("arid");
+			dto.setTerrain("desert");
+			
+			 PlanetDtoRequest dto2= new  PlanetDtoRequest();
+			    dto2.setName("Tatooine");
+				dto2.setClimate("arid");
+				dto2.setTerrain("desert");
+	       	this.service.save(dto);
+	   		
+	   	  
+	   	  Assertions.assertThat(this.service.save(dto2)).isEqualTo(new ResponseEntity<Planet> ( HttpStatus.BAD_REQUEST));
+	   	
+	   		
+	   	}
+	 @Test
+	   	public void 
+	   	savePlanetThatDoesNotExistInTheApiGetShould406() {
+	    	
+		 PlanetDtoRequest dto= new  PlanetDtoRequest();
+		    dto.setName("Teste");
+			dto.setClimate("arid");
+			dto.setTerrain("desert");
+			
+	       	
+	   		
+	   	  
+	   	  Assertions.assertThat(this.service.save(dto)).isEqualTo(new ResponseEntity<Planet> (HttpStatus.NOT_ACCEPTABLE));
+	   	
+	   		
+	   	
+}
+	 @Test
+	 public void searchByIdGetShould202() {
+		 PlanetDtoRequest dto= new  PlanetDtoRequest();
+		    dto.setName("Alderaan");
+			dto.setClimate("arid");
+			dto.setTerrain("desert");
+			ResponseEntity<Planet> planet=this.service.save(dto);
+			
+			Assertions.assertThat(this.service.findById(planet.getBody().getId()));
+		
+	 }
 	
 }
