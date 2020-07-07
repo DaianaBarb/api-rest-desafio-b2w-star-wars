@@ -34,7 +34,7 @@ public class PlanetTest {
 	
 	
 	 @Test
-	   	public void getShouldPlanetFindByName() {
+	   	public void getShouldPlanetFindByName()  {
 	    	
 		 PlanetDtoRequest dto= new  PlanetDtoRequest();
 		    dto.setName("Tatooine");
@@ -44,8 +44,8 @@ public class PlanetTest {
 			
 	       	this.service.save(dto);
 	   		
- 	   List <ResponseEntity<Planet>> planets = new ArrayList<>();
- 	   planets.add(this.service.findByName("Tatooine"));
+ 	   List <Planet> planets = new ArrayList<>();
+ 	   planets.add(this.service.findByName("Tatooine").get());
 	   	   
 	   	   Assertions.assertThat(planets.size()).isEqualTo(1);
 	       	
@@ -65,7 +65,7 @@ public class PlanetTest {
 	 }
 	
 	 @Test
-		public void createShouldPersistData()
+		public void createShouldPersistData() 
 	    {
 		
 		 PlanetDtoRequest dto= new  PlanetDtoRequest();
@@ -74,7 +74,7 @@ public class PlanetTest {
 			dto.setTerrain("desert");
 
 			
-			Assertions.assertThat(this.service.save(dto).getBody().getNumberOfAppearances()).isEqualTo(5);
+			Assertions.assertThat(this.service.save(dto).getNumberOfAppearances()).isEqualTo(5);
 			Assertions.assertThat(dto.getName()).isEqualTo("Tatooine");
 			Assertions.assertThat(dto.getClimate()).isEqualTo("arid");
 			Assertions.assertThat(dto.getTerrain()).isEqualTo("desert");
@@ -147,14 +147,14 @@ public class PlanetTest {
 	   	
 }
 	 @Test
-	 public void searchByIdGetShould202() {
+	 public void searchByIdGetShould202()  {
 		 PlanetDtoRequest dto= new  PlanetDtoRequest();
 		    dto.setName("Alderaan");
 			dto.setClimate("arid");
 			dto.setTerrain("desert");
-			ResponseEntity<Planet> planet=this.service.save(dto);
+			Planet planet=this.service.save(dto);
 			
-			Assertions.assertThat(this.service.findById(planet.getBody().getId()));
+			Assertions.assertThat(this.service.findById(planet.getId()));
 		
 	 }
 	

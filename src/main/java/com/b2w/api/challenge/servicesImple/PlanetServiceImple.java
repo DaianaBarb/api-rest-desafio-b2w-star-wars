@@ -4,15 +4,15 @@ package com.b2w.api.challenge.servicesImple;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.b2w.api.challenge.dto.PlanetDtoRequest;
+import com.b2w.api.challenge.exceptions.ResourceNotFoundException;
 import com.b2w.api.challenge.models.Planet;
 import com.b2w.api.challenge.repositories.PlanetRepository;
 import com.b2w.api.challenge.services.PlanetService;
@@ -24,40 +24,56 @@ import com.b2w.api.challenge.utils.ReturnApiData;
 @Service
 public class PlanetServiceImple implements PlanetService {
 	
+	
+	
 	@Autowired
 	PlanetRepository repository;
 
     @Autowired
     RestTemplate restTemplate;
+    
+    @Value("${apistarwars.url}")
+	String urlSearchPlanets;
+	
+	@Value("${SearchOfName.url}")
+	String urlSearchOfName;
+	
 
 	@Override
-	public ResponseEntity<Planet> save(PlanetDtoRequest planet) {
+	public Planet save(PlanetDtoRequest planet)  {
 		
 		Planet findPlanet = repository.findByNameIgnoreCase(planet.getName());
 		
 		if(findPlanet != null) {
-			return new ResponseEntity<Planet> ( HttpStatus.BAD_REQUEST);
+			return findPlanet;
 		}
 		
-		if(this.getNumberOfAppearances(planet.getName())==0) {
+		if(this.getNumberOfAppearancesAndCheckName(planet.getName())==0) {
 			
-			return new ResponseEntity<Planet> (HttpStatus.NOT_ACCEPTABLE);
+			throw new ResourceNotFoundException(" planet name inserted not found ");
 		}
 		
         findPlanet= planet.turnsToPlanet(this.getNumberOfAppearances(planet.getName()));
 		
-		return new ResponseEntity<Planet> ( repository.save(findPlanet),HttpStatus.CREATED);
+		return  repository.save(findPlanet);
 
 	}
 
 	@Override
-	public ResponseEntity<Planet> findById(String id) {
+	public Optional<Planet> findById(String id) {
 		
 		Optional<Planet> planet =repository.findById(id);
 		
-		if(planet.isPresent()) {return new  ResponseEntity<Planet>(planet.get(),HttpStatus.ACCEPTED);}
 		
-		return new ResponseEntity<Planet>(HttpStatus.NOT_FOUND) ;
+		if(planet.isPresent()) {
+			
+			planet.get().setNumberOfAppearances(getNumberOfAppearances(planet.get().getName()));
+			
+			this.repository.save(planet.get());
+			
+			return Optional.ofNullable(planet.get());}
+		
+		return planet ;
 	}
 
 	@Override
@@ -69,33 +85,33 @@ public class PlanetServiceImple implements PlanetService {
 	}
 
 	@Override
-	public ResponseEntity<Void> delete(String id) {
+	public Optional<Planet> delete(String id) {
 		
 		Optional<Planet> planet =repository.findById(id);
 		
-		if(planet.isPresent()) {repository.deleteById(id); return new  ResponseEntity<Void>(HttpStatus.ACCEPTED);}
+		if(planet.isPresent()) {repository.deleteById(id);}
 		
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND) ;
+		return planet;
+		
+		
 	}
 
 	@Override
-	public ResponseEntity<Planet> findByName(String name) {
+	public Optional<Planet> findByName(String name) {
 		
      Optional<Planet> planet =Optional.ofNullable(repository.findByNameIgnoreCase(name));
 		
-  	if(planet.isPresent()) {return new  ResponseEntity<Planet>(planet.get(),HttpStatus.ACCEPTED);}
+  	if(planet.isPresent()) {return Optional.ofNullable(planet.get());}
 		
-		return new ResponseEntity<Planet>(HttpStatus.NOT_FOUND) ;
+		return planet;
 	}
 
 	
-    private int getNumberOfAppearances(String name)  {
+    private int getNumberOfAppearancesAndCheckName(String name)  {
 		
-	String urlSearchOfName ="https://swapi.dev/api/planets/?search="+name;
-
-	String urlSearchPlanets= "https://swapi.dev/api/planets/";
 	
-	ReturnApiData listNamesOfPlanets =  restTemplate.getForObject(urlSearchPlanets, ReturnApiData.class);
+	
+	ReturnApiData listNamesOfPlanets =  restTemplate.getForObject(this.urlSearchPlanets, ReturnApiData.class);
 	
 	
 		
@@ -103,15 +119,19 @@ public class PlanetServiceImple implements PlanetService {
 			
 			if(name.toUpperCase().equals(resultNames.getName().toUpperCase()))
 			{
-
-				ReturnApiData returnn=restTemplate.getForObject(urlSearchOfName, ReturnApiData.class);
-				Results[] result=returnn.getResults();
-				return result[0].getFilms().length;	
+                 return  getNumberOfAppearances(name);
 			}}
 		
 	return 0;
 	
 		
 	}
+    
+    private int getNumberOfAppearances(String name) {
+    	
+    	ReturnApiData returnn=restTemplate.getForObject(this.urlSearchOfName+name, ReturnApiData.class);
+		Results[] result=returnn.getResults();
+		return result[0].getFilms().length;	
+    }
 	
 }

@@ -1,19 +1,19 @@
 package com.b2w.api.challenge.services;
 
 
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import com.b2w.api.challenge.dto.PlanetDtoRequest;
 import com.b2w.api.challenge.models.Planet;
 
 public interface PlanetService {
 	
-	public ResponseEntity<Planet> save(PlanetDtoRequest planeta);
-	public ResponseEntity<Planet> findById(String id);
+	public Planet save(PlanetDtoRequest planeta);
+	public Optional<Planet> findById(String id);
 	public Page<Planet> findAll(int page, int size);
-	public ResponseEntity<Void> delete(String id);
-	public ResponseEntity< Planet> findByName(String name);
+	public Optional<Planet> delete(String id);
+	public Optional<Planet> findByName(String name);
 	
 
 }
